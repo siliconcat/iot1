@@ -22,6 +22,7 @@ $setup_puppetserver = <<END
 END
 
 nodes = [
+  { :hostname => 'puppet',   :ip => '192.168.250.2' },
   { :hostname => 'zoo-1',   :ip => '192.168.250.50' },
   { :hostname => 'storm-worker-1',      :ip => '192.168.250.201' },
   { :hostname => 'storm-worker-2',    :ip => '192.168.250.202' },
@@ -121,13 +122,13 @@ Vagrant.configure(2) do |config|
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "puppet/manifests"
     puppet.manifest_file = "site.pp"
-    puppet.module_path = "puppet/modules"
+    puppet.module_path = ["puppet/modules", "puppet/vendor/modules"]
   end
 
   # Puppet Server
   #config.vm.define "puppetserver", autostart: false do |puppetserver|
-  #  puppetserver.vm.hostname = "puppetserver.silicon.cat"
-  #  puppetserver.vm.network :private_network, ip: "192.168.250.6"
+  #  puppetserver.vm.hostname = "puppet.silicon.cat"
+  #  puppetserver.vm.network :private_network, ip: "192.168.250.1"
   #  puppetserver.vm.provision "shell", inline: $setup_puppetserver
   #  puppetserver.vm.provider :virtualbox do |ps|
   #    ps.memory = 1024

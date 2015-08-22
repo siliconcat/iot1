@@ -4,7 +4,7 @@ stage { 'pre':
 }
 
 # add the baseconfig module to the new 'pre' run stage
-class { 'common':
+class { 'base':
   stage => 'pre'
 }
 
@@ -16,7 +16,15 @@ File {
 }
 
 # all boxes get the base config
-include common
+include base, stdlib
+
+node default {
+  hiera_include('classes')
+}
+
+node 'puppet' {
+  include puppetserver
+}
 
 #node 'ex6proxy' {
 #  include nginx, nginx_vhosts

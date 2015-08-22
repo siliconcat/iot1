@@ -1,0 +1,28 @@
+---
+:backends:
+  - eyaml
+  - yaml
+
+:eyaml:
+  :gpgpghome: /etc/puppet/gnupg
+  :datadir: hieradata
+  :encrypt_method: gpg
+  :gpg_gnupghome: /etc/puppet/gnupg
+  :extension: yaml
+
+:yaml:
+  :datadir: hieradata
+
+:hierarchy:
+  # Data for a given environment overrides defaults
+  - "%{::environment}/%{::hostname}"
+  - "product/%{::ident_product}"
+  - "%{::environment}/role.%{::role}"
+  - "%{::environment}/mod.%{module_name}"
+  - "%{::environment}/common"
+
+  # Common to all environments
+  - "%{::hostname}"
+  - "role.%{::role}"
+  - "mod.%{module_name}"
+  - common
