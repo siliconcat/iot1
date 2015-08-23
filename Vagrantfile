@@ -1,28 +1,51 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-
-$setup_puppet = <<END
-echo 'supercede domain-name "silicon.cat";' > /etc/dhcp/dhclient.conf
-
-wget https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
-sudo dpkg -i puppetlabs-release-pc1-trusty.deb
-sudo apt-get update
-sudo apt-get install -y puppet-agent
-END
-
 $setup_puppetserver = <<END
-  echo 'supercede domain-name "silicon.cat";' > /etc/dhcp/dhclient.conf
+  echo 'supersede domain-name "silicon.cat";' | sudo tee --append /etc/dhcp/dhclient.conf
+
+  sudo cp /vagrant/hosts /etc/hosts
 
   wget https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
   sudo dpkg -i puppetlabs-release-pc1-trusty.deb
   sudo apt-get update
   sudo apt-get install -y puppetserver
-  sudo service puppetserver start
+
+  sudo rm -rf /etc/puppetlabs/puppet/ssl
+
+  sudo apt-get install --reinstall -y language-pack-en
+
+  sudo cp -r /vagrant/puppet/* /etc/puppetlabs/code
+  sudo cp -r /vagrant/puppet/vendor/modules/* /etc/puppetlabs/code/modules
+  sudo chown -R vagrant:vagrant /etc/puppetlabs
+
+  echo 'autosign = true' | tee --append /etc/puppetlabs/puppet/puppet.conf
+  echo 'export PATH=/opt/puppetlabs/bin:$PATH' | tee --append ~/.bashrc
+
+  sudo /opt/puppetlabs/bin/puppet resource service puppetserver ensure=running enable=true
 END
 
+$setup_puppetagent = <<END
+  echo 'supersede domain-name "silicon.cat";' | sudo tee --append /etc/dhcp/dhclient.conf
+
+  sudo cp /vagrant/hosts /etc/hosts
+
+  wget https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
+  sudo dpkg -i puppetlabs-release-pc1-trusty.deb
+  sudo apt-get update
+  sudo apt-get install -y puppet
+  echo 'export PATH=/opt/puppetlabs/bin:$PATH' | tee --append ~/.bashrc
+  sudo apt-get install -y puppet-agent
+
+  sudo apt-get install --reinstall -y language-pack-en
+
+  sudo /opt/puppetlabs/bin/puppet agent -t
+END
+
+
+
+
 nodes = [
-  { :hostname => 'puppet',   :ip => '192.168.250.2' },
   { :hostname => 'zoo-1',   :ip => '192.168.250.50' },
   { :hostname => 'storm-worker-1',      :ip => '192.168.250.201' },
   { :hostname => 'storm-worker-2',    :ip => '192.168.250.202' },
@@ -101,12 +124,31 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get install -y apache2
   # SHELL
 
+  config.ssh.insert_key = false
+
+  # Puppet Server
+    config.vm.define "puppet", autostart: false do |puppetserver|
+      puppetserver.vm.hostname = "puppet.silicon.cat"
+      puppetserver.vm.network :private_network, ip: "192.168.250.2"
+      puppetserver.vm.provision "shell", inline: $setup_puppetserver
+
+      puppetserver.vm.provider :virtualbox do |ps|
+        ps.memory = 2500
+      end
+      #config.vm.provision :puppet do |puppet|
+      #    puppet.manifests_path = "puppet/manifests"
+      #    puppet.manifest_file = "site.pp"
+      #    puppet.hiera_config_path = "puppet/hiera.yaml"
+      #    puppet.working_directory = "/etc/puppet"
+      #    puppet.module_path = ["puppet/modules", "puppet/vendor/modules"]
+      #  end
+    end
+
 
   nodes.each do |node|
     config.vm.define node[:hostname] do |nodeconfig|
       nodeconfig.vm.hostname = node[:hostname] + ".silicon.cat"
       nodeconfig.vm.network :private_network, ip: node[:ip]
-      #nodeconfig.vm.provision "shell", inline: $setup_puppet
 
       memory = node[:ram] ? node[:ram] : 512;
       nodeconfig.vm.provider :virtualbox do |vb|
@@ -116,24 +158,15 @@ Vagrant.configure(2) do |config|
           "--memory", memory.to_s,
         ]
       end
+
+      nodeconfig.vm.provision "shell", inline: $setup_puppetagent
+      #nodeconfig.vm.provision "puppet_server" do |puppet|
+      #  puppet.puppet_server = "192.168.250.2"
+      #end
     end
   end
 
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "puppet/manifests"
-    puppet.manifest_file = "site.pp"
-    puppet.module_path = ["puppet/modules", "puppet/vendor/modules"]
-  end
 
-  # Puppet Server
-  #config.vm.define "puppetserver", autostart: false do |puppetserver|
-  #  puppetserver.vm.hostname = "puppet.silicon.cat"
-  #  puppetserver.vm.network :private_network, ip: "192.168.250.1"
-  #  puppetserver.vm.provision "shell", inline: $setup_puppetserver
-  #  puppetserver.vm.provider :virtualbox do |ps|
-  #    ps.memory = 1024
-  #  end
-  #end
 end
 
 

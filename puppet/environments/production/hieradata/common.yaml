@@ -1,0 +1,11 @@
+---
+
+classes:
+  - base
+  - apt
+  - ntp
+
+packages:
+  - python-software-properties
+
+lala: 'Bruno'

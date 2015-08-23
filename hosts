@@ -1,0 +1,10 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+# Puppet servers -- move the Puppet alias to the one you are testing
+192.168.250.2  puppet puppet.silicon.cat
+
+# Clients
+192.168.250.50 zoo-1 zoo-1.silicon.cat
+192.168.250.201 storm-worker-1 storm-worker-1.silicon.cat
+192.168.250.202 storm-worker-2 storm-worker-2.silicon.cat
