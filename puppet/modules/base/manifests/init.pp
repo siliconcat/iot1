@@ -16,6 +16,9 @@ class base {
     'zoo-1':
       ip => '192.168.250.50';
 
+    'storm-master':
+      ip => '192.168.250.200';
+
     'storm-worker-1':
       ip => '192.168.250.201';
 

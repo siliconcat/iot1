@@ -18,6 +18,7 @@ $setup_puppetserver = <<END
   sudo cp -r /vagrant/puppet/* /etc/puppetlabs/code
   sudo cp -r /vagrant/puppet/vendor/modules/* /etc/puppetlabs/code/modules
   sudo chown -R vagrant:vagrant /etc/puppetlabs
+  sudo chmod -R 755 /etc/puppetlabs/code/modules
 
   echo 'autosign = true' | tee --append /etc/puppetlabs/puppet/puppet.conf
   echo 'export PATH=/opt/puppetlabs/bin:$PATH' | tee --append ~/.bashrc
@@ -47,8 +48,9 @@ END
 
 nodes = [
   { :hostname => 'zoo-1',   :ip => '192.168.250.50' },
-  { :hostname => 'storm-worker-1',      :ip => '192.168.250.201' },
-  { :hostname => 'storm-worker-2',    :ip => '192.168.250.202' },
+  { :hostname => 'storm-master',      :ip => '192.168.250.200', :ram => 1024 },
+  { :hostname => 'storm-worker-1',      :ip => '192.168.250.201', :ram => 1024 },
+  { :hostname => 'storm-worker-2',    :ip => '192.168.250.202', :ram => 1024 },
 ]
 
 
@@ -135,13 +137,6 @@ Vagrant.configure(2) do |config|
       puppetserver.vm.provider :virtualbox do |ps|
         ps.memory = 2500
       end
-      #config.vm.provision :puppet do |puppet|
-      #    puppet.manifests_path = "puppet/manifests"
-      #    puppet.manifest_file = "site.pp"
-      #    puppet.hiera_config_path = "puppet/hiera.yaml"
-      #    puppet.working_directory = "/etc/puppet"
-      #    puppet.module_path = ["puppet/modules", "puppet/vendor/modules"]
-      #  end
     end
 
 

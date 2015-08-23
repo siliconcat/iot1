@@ -1,0 +1,5 @@
+---
+classes:
+  - java
+  - storm
+  - storm_nimbus

@@ -6,5 +6,6 @@
 
 # Clients
 192.168.250.50 zoo-1 zoo-1.silicon.cat
+192.168.250.200 storm-master storm-master.silicon.cat
 192.168.250.201 storm-worker-1 storm-worker-1.silicon.cat
 192.168.250.202 storm-worker-2 storm-worker-2.silicon.cat
