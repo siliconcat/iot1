@@ -1,9 +1,9 @@
 
-class java9 {
+class java {
 
   file { '/var/local/oracle-java8-installer.preseed':
     ensure  => 'present',
-    content => template('java9/java.preseed')
+    content => template('java/java.preseed')
   }
 
   exec { 'add_java_ppa':
@@ -25,7 +25,7 @@ class java9 {
   }
 
   file { '/etc/profile.d/java.sh':
-    content => template('java9/set_java_home.sh'),
+    content => template('java/set_java_home.sh'),
     owner   => root,
     group   => root,
     mode    => '0755',
