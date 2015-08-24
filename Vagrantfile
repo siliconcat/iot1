@@ -50,7 +50,7 @@ END
 
 nodes = [
   { :hostname => 'zoo-1',   :ip => '192.168.250.50' },
-  { :hostname => 'storm-master',      :ip => '192.168.250.200', :ram => 1024 },
+  { :hostname => 'storm-master',      :ip => '192.168.250.200', :ram => 2048 },
   { :hostname => 'storm-worker-1',      :ip => '192.168.250.201', :ram => 1024 },
   { :hostname => 'storm-worker-2',    :ip => '192.168.250.202', :ram => 1024 },
 ]

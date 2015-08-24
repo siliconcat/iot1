@@ -1,0 +1,34 @@
+{
+  "dependencies": [
+
+  ],
+  "types": [
+
+  ],
+  "summary": "Daemontools Module",
+  "source": "git@github.com:jbussdieker/puppet-daemontools.git",
+  "description": "UNKNOWN",
+  "author": "Joshua B. Bussdieker",
+  "license": "Apache License, Version 2.0",
+  "project_page": "UNKNOWN",
+  "version": "0.0.3",
+  "name": "jbussdieker-daemontools",
+  "checksums": {
+    "spec/spec_helper.rb": "792eeb7aa7edafb93e2bc1d27c5e75c5",
+    "manifests/config.pp": "602f77e0489aebdf542680adb7061199",
+    "Gemfile": "cdacae4cd0359dd45be29b21fc86698b",
+    "manifests/init.pp": "97c054108278bd397152b1d22dd1b5f3",
+    "manifests/service.pp": "30bf4705d5fcd32f34f3627d35b7dd3c",
+    "manifests/package.pp": "ddc3e3930862704938b8b40c85c7ed63",
+    "Rakefile": "f39450f89f23380c06f6d6a36d0ec017",
+    "templates/log.erb": "dee01c8c69670417c46e3f7c6fc41d88",
+    "spec/fixtures/manifests/site.pp": "d41d8cd98f00b204e9800998ecf8427e",
+    "Gemfile.lock": "816c37cb72e123ae47c232b38c6bd687",
+    "templates/service.erb": "db34bb1e9a4339fb0acd22c52d8292de",
+    "spec/classes/config_spec.rb": "4ae9454115925dbe6bcdf04068ba3271",
+    "Modulefile": "c3440c02fedb4c75e88eeef5ddaf531a",
+    "spec/defines/service_spec.rb": "ab961216a8deae042ca8c1a9479ea501",
+    "spec/classes/package_spec.rb": "d5508224c5a6d360a04cd109e8cc90ef",
+    "README.md": "d5cad2aa7e4b32783524c1b655cbf525"
+  }
+}

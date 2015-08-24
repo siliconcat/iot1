@@ -1,5 +1,6 @@
 ---
 classes:
+  - daemontools
   - java
   - storm
   - storm_nimbus
