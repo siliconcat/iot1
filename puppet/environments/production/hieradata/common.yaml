@@ -4,6 +4,7 @@ classes:
   - base
   - apt
   - ntp
+  - archive::prerequisites
 
 packages:
   - python-software-properties

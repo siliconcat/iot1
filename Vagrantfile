@@ -9,6 +9,7 @@ $setup_puppetserver = <<END
   wget https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
   sudo dpkg -i puppetlabs-release-pc1-trusty.deb
   sudo apt-get update
+  sudo apt-get install -y ntp
   sudo apt-get install -y puppetserver
 
   sudo rm -rf /etc/puppetlabs/puppet/ssl
@@ -34,6 +35,7 @@ $setup_puppetagent = <<END
   wget https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
   sudo dpkg -i puppetlabs-release-pc1-trusty.deb
   sudo apt-get update
+  sudo apt-get install -y ntp
   sudo apt-get install -y puppet
   echo 'export PATH=/opt/puppetlabs/bin:$PATH' | tee --append ~/.bashrc
   sudo apt-get install -y puppet-agent
